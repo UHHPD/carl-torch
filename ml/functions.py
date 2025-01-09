@@ -95,7 +95,7 @@ def _ratio_xe_abs_w(s_hat, y_true, w):
 def _ratio_xe_log_abs_w(s_hat, y_true, w):
     if w is None:
         w = torch.ones(y_true.shape[0])
-    loss = BCELoss(weight=torh.log(torch.abs(w)))(s_hat, y_true)
+    loss = BCELoss(weight=torch.log(torch.abs(w)))(s_hat, y_true)
     return loss
 
 def ratio_xe(type):

@@ -23,7 +23,11 @@ import math as math
 from scipy import optimize
 
 # Utility for plotting (custom)
+<<<<<<< HEAD
 import PlotUtils as PU
+=======
+# import PlotUtils as PU
+>>>>>>> d4a15a9 (Initial commit for CARL-TORCH)
 
 # Plotting imports
 import matplotlib as mpl
@@ -323,6 +327,7 @@ def PhaseSpaceSample(Events, Weights,
     
     print ("PhaseSpaceSampling:: Event Sampling done")
     print ("PhaseSpaceSampling:: Plotting")
+<<<<<<< HEAD
     plt.hist2d(m12_array, m23_array, bins = 100, weights=Weights, norm=mpl.colors.LogNorm())
     plt.savefig('CARLDataSet-neg/Dalitz-PFN_{}_{}_{}_{}.pdf'.format(POI,m1,m2,m3),format='pdf')
     plt.clf()
@@ -337,6 +342,22 @@ def PhaseSpaceSample(Events, Weights,
     plt.savefig('CARLDataSet-neg/Dalitz-12-13-PFN_{}_{}_{}_{}.pdf'.format(POI,m1,m2,m3),format='pdf')
     plt.clf()
     plt.close()
+=======
+#    plt.hist2d(m12_array, m23_array, bins = 100, weights=Weights, norm=mpl.colors.LogNorm())
+#    plt.savefig('CARLDataSet-neg/Dalitz-PFN_{}_{}_{}_{}.pdf'.format(POI,m1,m2,m3),format='pdf')
+#    plt.clf()
+#   plt.close()
+    
+#    plt.hist2d(m13_array, m23_array, bins = 100, weights=Weights, norm=mpl.colors.LogNorm())
+#    plt.savefig('CARLDataSet-neg/Dalitz-12-23-PFN_{}_{}_{}_{}.pdf'.format(POI,m1,m2,m3),format='pdf')
+ #   plt.clf()
+ #   plt.close()
+    
+   # plt.hist2d(m12_array, m13_array, bins = 100, weights=Weights, norm=mpl.colors.LogNorm())
+  #  plt.savefig('CARLDataSet-neg/Dalitz-12-13-PFN_{}_{}_{}_{}.pdf'.format(POI,m1,m2,m3),format='pdf')
+    #plt.clf()
+    #plt.close()
+>>>>>>> d4a15a9 (Initial commit for CARL-TORCH)
     
     #plt.hist2d(theta12_array, theta23_array, bins = 100, norm=mpl.colors.LogNorm())
     #plt.savefig('plots-Info-2ME/theta12-23-PFN_{}_{}_{}_{}.pdf'.format(POI,m1,m2,m3),format='pdf')
@@ -503,9 +524,15 @@ h1 = ax2.hist(ConditionalSet[:,1,3], bins = 50, alpha = 0.5, weights=Default_wei
 h1 = ax2.hist(ConditionalSet[:,2,3], bins = 50, alpha = 0.5, weights=Default_weights, label = r'$Cond.  :  POI={}, m1={}, m2={}, m3={}$'.format(POI,"N/A","N/A","N/A"))
 ax1.legend(loc='upper right', frameon=False, prop={"size":8})
 ax2.legend(loc='upper right', frameon=False, prop={"size":8})
+<<<<<<< HEAD
 plt.savefig('CARLDataSet-neg/PFN_POISummary.pdf',format='pdf')
 plt.clf()
 plt.close()
+=======
+#plt.savefig('CARLDataSet-neg/PFN_POISummary.pdf',format='pdf')
+#plt.clf()
+#plt.close()
+>>>>>>> d4a15a9 (Initial commit for CARL-TORCH)
 
 
 bins = np.linspace(np.amin(Default[:,:,0]),np.amax(Default[:,:,0]),100)
@@ -519,9 +546,15 @@ h1 = ax2.hist(ConditionalSet[:,1,0], bins = bins, alpha = 0.5, weights=Condition
 h1 = ax2.hist(ConditionalSet[:,2,0], bins = bins, alpha = 0.5, weights=ConditionalSet_weights, label = r'$Cond.  P3:  POI={}, m1={}, m2={}, m3={}$'.format(POI,"N/A","N/A","N/A"))
 ax1.legend(loc='upper right', frameon=False, prop={"size":8})
 ax2.legend(loc='upper right', frameon=False, prop={"size":8})
+<<<<<<< HEAD
 plt.savefig('CARLDataSet-neg/PFN_E-Summary.pdf',format='pdf')
 plt.clf()
 plt.close()
+=======
+#plt.savefig('CARLDataSet-neg/PFN_E-Summary.pdf',format='pdf')
+#plt.clf()
+#plt.close()
+>>>>>>> d4a15a9 (Initial commit for CARL-TORCH)
 
 bins = np.linspace(np.amin(Default[:,:,1]),np.amax(Default[:,:,1]),100)
 fig, (ax1,ax2) = plt.subplots(nrows=2)
@@ -534,9 +567,15 @@ h1 = ax2.hist(ConditionalSet[:,1,1], bins = bins, alpha = 0.5,  weights=Conditio
 #h1 = ax2.hist(ConditionalSet[:,2,1], bins = bins, alpha = 0.5, weights=ConditionalSet_weights, label = r'$Cond.  P3:  POI={}, m1={}, m2={}, m3={}$'.format(POI,"N/A","N/A","N/A"))
 ax1.legend(loc='upper right', frameon=False, prop={"size":8})
 ax2.legend(loc='upper right', frameon=False, prop={"size":8})
+<<<<<<< HEAD
 plt.savefig('CARLDataSet-neg/PFN_Theta-Summary.pdf',format='pdf')
 plt.clf()
 plt.close()
+=======
+#plt.savefig('CARLDataSet-neg/PFN_Theta-Summary.pdf',format='pdf')
+#plt.clf()
+#plt.close()
+>>>>>>> d4a15a9 (Initial commit for CARL-TORCH)
 
 bins = np.linspace(np.amin(Default[:,:,2]),np.amax(Default[:,:,2]),100)
 fig, (ax1,ax2) = plt.subplots(nrows=2)
@@ -549,9 +588,15 @@ h1 = ax2.hist(ConditionalSet[:,1,2], bins = bins, alpha = 0.5, weights=Condition
 h1 = ax2.hist(ConditionalSet[:,2,2], bins = bins, alpha = 0.5, weights=ConditionalSet_weights, label = r'$Cond.  P3:  POI={}, m1={}, m2={}, m3={}$'.format(POI,"N/A","N/A","N/A"))
 ax1.legend(loc='upper right', frameon=False, prop={"size":8})
 ax2.legend(loc='upper right', frameon=False, prop={"size":8})
+<<<<<<< HEAD
 plt.savefig('CARLDataSet-neg/PFN_Pz-Summary.pdf',format='pdf')
 plt.clf()
 plt.close()
+=======
+#plt.savefig('CARLDataSet-neg/PFN_Pz-Summary.pdf',format='pdf')
+#plt.clf()
+#plt.close()
+>>>>>>> d4a15a9 (Initial commit for CARL-TORCH)
 
 
 ## -----------------------------

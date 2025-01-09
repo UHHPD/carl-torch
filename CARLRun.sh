@@ -1,4 +1,5 @@
 #!/bin/bash
+<<<<<<< HEAD
 
 ########################################################
 ##   Example of HTCondor GPU utilisation
@@ -63,3 +64,18 @@ python3 train.py --global_name aMCatNLO  --TreeName MVA_Var_Tree_Sig -n Nominal_
 tar cvf models_out.tar.gz models/
 
 deactivate
+=======
+whoami
+pwd
+which python
+. ~/.bashrc
+which python
+# source CARLENV/bin/activate
+conda activate CARLENV
+which python
+cp -r ~/carl-torch/ml .
+echo "Training with $@"
+python train.py $@
+echo "done"
+
+>>>>>>> d4a15a9 (Initial commit for CARL-TORCH)

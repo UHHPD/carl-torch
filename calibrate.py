@@ -8,6 +8,10 @@ from ml.calibration import CalibratedClassifier
 from ml.base import Estimator
 import numpy as np
 
+<<<<<<< HEAD
+=======
+# Check for synchronization between VS Code and NAF
+>>>>>>> d4a15a9 (Initial commit for CARL-TORCH)
 
 #parser = optparse.OptionParser(usage="usage: %prog [opts]", version="%prog 1.0")
 #parser.add_option('-s', '--samples',   action='store', type=str, dest='samples',   default='dilepton', help='samples to derive weights for. Sherpa 2.2.8 ttbar dilepton')
@@ -35,6 +39,13 @@ parser.add_option('-c', '--ClipWeight',  action='store_true', dest='clip_weight'
 parser.add_option('--PlotROC',  action="store_true", dest='plot_ROC',  help='Flag to determine if one should plot ROC')
 parser.add_option('--PlotObsROC',  action="store_true", dest='plot_obs_ROC',  help='Flag to determine if one should plot observable ROCs')
 parser.add_option('--scale-method', action='store', dest='scale_method', type=str, default=None, help='scaling method for input data. e.g minmax, standard.')
+<<<<<<< HEAD
+=======
+# New options for interpolation and variable width
+parser.add_option('--interpolation', action='store', type=str, dest='interpolation', default=None, help='Interpolation method to use (linear, nearest ,zero, slinear, quadratic,cubic)')
+parser.add_option('--variable-width', action='store_true', dest='variable_width', default=False, help='Flag to use variable width for calibration (Having approximate same number of data points per bin)')
+
+>>>>>>> d4a15a9 (Initial commit for CARL-TORCH)
 (opts, args) = parser.parse_args()
 nominal  = opts.nominal
 variation = opts.variation
@@ -45,6 +56,11 @@ features = opts.features.split(",")
 weightFeature = opts.weightFeature
 treename = opts.treename
 scale_method=opts.scale_method
+<<<<<<< HEAD
+=======
+interpolation = opts.interpolation
+variable_width = opts.variable_width
+>>>>>>> d4a15a9 (Initial commit for CARL-TORCH)
 loading = Loader()
 ###########################################
 
@@ -74,8 +90,13 @@ if opts.clip_weight:
     s_hat[s_hat > 1.0] = 1.0
     s_hat[s_hat < 0.0] = 0.0
 
+<<<<<<< HEAD
 
 calib = CalibratedClassifier(carl, global_name=global_name)
+=======
+# calib = CalibratedClassifier(carl, global_name=global_name,interpolation=None, variable_width=True)
+calib = CalibratedClassifier(carl, global_name=global_name,interpolation=interpolation, variable_width=variable_width)
+>>>>>>> d4a15a9 (Initial commit for CARL-TORCH)
 calib.fit(X=X,y=y,w=w)
 p0, p1, r_cal = calib.predict(X=X)
 loading.load_calibration(y_true = y,
@@ -84,6 +105,12 @@ loading.load_calibration(y_true = y,
                          label = 'calibrated',
                          global_name = global_name,
                          plot = True,
+<<<<<<< HEAD
+=======
+                         interpolation = interpolation,
+                         variable_width = variable_width,
+                         scale_method = scale_method
+>>>>>>> d4a15a9 (Initial commit for CARL-TORCH)
 )
 
 evaluate = ['train', 'val']

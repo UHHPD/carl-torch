@@ -243,12 +243,25 @@ class Loader():
             w0 = w0/(w0.sum())
             w1 = w1/(w1.sum())
 
+<<<<<<< HEAD
         # Train, test splitting of input dataset
         X0_train, X0_test, y0_train, y0_test, w0_train, w0_test = train_test_split(X0, y0, w0, test_size=0.05, random_state=42)
         X1_train, X1_test, y1_train, y1_test, w1_train, w1_test = train_test_split(X1, y1, w1, test_size=0.05, random_state=42)
 
         X0_train, X0_val,  y0_train, y0_val, w0_train, w0_val =  train_test_split(X0_train, y0_train, w0_train, test_size=0.50, random_state=42)
         X1_train, X1_val,  y1_train, y1_val, w1_train, w1_val =  train_test_split(X1_train, y1_train, w1_train, test_size=0.50, random_state=42)
+=======
+        
+        # Edit this for the training using the full sample (set test_size to 0)
+        # Train, test splitting of input dataset
+        # Default test size is 0.05
+        X0_train, X0_test, y0_train, y0_test, w0_train, w0_test = train_test_split(X0, y0, w0, test_size=0.05, random_state=42)
+        X1_train, X1_test, y1_train, y1_test, w1_train, w1_test = train_test_split(X1, y1, w1, test_size=0.05, random_state=42)
+
+        # Edit the test_size such that maybe validation size is set to 20%
+        X0_train, X0_val,  y0_train, y0_val, w0_train, w0_val =  train_test_split(X0_train, y0_train, w0_train, test_size=0.30, random_state=42)
+        X1_train, X1_val,  y1_train, y1_val, w1_train, w1_val =  train_test_split(X1_train, y1_train, w1_train, test_size=0.30, random_state=42)
+>>>>>>> d4a15a9 (Initial commit for CARL-TORCH)
 
         print("x0_train size: {}".format(X0_train.shape))
         print("x0_test size:  {}".format(X0_test.shape))
@@ -613,8 +626,15 @@ class Loader():
         label = None,
         features=[],
         plot = False,
+<<<<<<< HEAD
         global_name="Test"
 
+=======
+        global_name="Test",
+        interpolation = 'linear',
+        variable_width = False,
+        scale_method = 'minmax'
+>>>>>>> d4a15a9 (Initial commit for CARL-TORCH)
     ):
         """
         Parameters
@@ -631,4 +651,8 @@ class Loader():
 
         # load samples
         y_true  = load_and_check(y_true,  memmap_files_larger_than_gb=1.0)
+<<<<<<< HEAD
         plot_calibration_curve(y_true, p1_raw, p1_cal, global_name, plot)
+=======
+        plot_calibration_curve(y_true, p1_raw, p1_cal, global_name, plot, interpolation = interpolation, variable_width = variable_width, scale_method = scale_method)
+>>>>>>> d4a15a9 (Initial commit for CARL-TORCH)

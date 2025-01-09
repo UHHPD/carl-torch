@@ -301,7 +301,11 @@ class RatioEstimator(Estimator):
         )
         return result
 
+<<<<<<< HEAD
     def evaluate_ratio(self, x):
+=======
+    def evaluate_ratio(self, x, batch_size = 10000):
+>>>>>>> d4a15a9 (Initial commit for CARL-TORCH)
         """
         Evaluates the ratio as a function of the observation x.
         Parameters
@@ -328,6 +332,10 @@ class RatioEstimator(Estimator):
         r_hat, s_hat = evaluate_ratio_model(
             model=self.model,
             xs=x,
+<<<<<<< HEAD
+=======
+            batch_size = batch_size
+>>>>>>> d4a15a9 (Initial commit for CARL-TORCH)
         )
         logger.debug("Evaluation done")
         return r_hat, s_hat
@@ -335,7 +343,11 @@ class RatioEstimator(Estimator):
     def evaluate(self, *args, **kwargs):
         return self.evaluate_ratio(*args, **kwargs)
 
+<<<<<<< HEAD
     def evaluate_performance(self, x, y):
+=======
+    def evaluate_performance(self, x, y, batch_size = 10000):
+>>>>>>> d4a15a9 (Initial commit for CARL-TORCH)
         """
         Evaluates the performance of the classifier.
         Parameters
@@ -363,6 +375,10 @@ class RatioEstimator(Estimator):
             model=self.model,
             xs=x,
             ys=y,
+<<<<<<< HEAD
+=======
+            batch_size = batch_size
+>>>>>>> d4a15a9 (Initial commit for CARL-TORCH)
         )
         logger.debug("Evaluation done")
 

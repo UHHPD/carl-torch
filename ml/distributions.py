@@ -23,7 +23,11 @@ class Histogram():
             (`"linear"`, `"nearest"`, `"zero"`, `"slinear"`, `"quadratic"`,
             `"cubic"`).
         * `variable_width` [boolean, optional]
+<<<<<<< HEAD
             If True use equal probability variable length bins.
+=======
+            If True use equal probability variable length bins. (Having approximate same number of data points per bin)
+>>>>>>> d4a15a9 (Initial commit for CARL-TORCH)
         """
         self.bins = bins
         self.range = range
@@ -61,7 +65,11 @@ class Histogram():
             bins = bayesian_blocks(X.ravel(), fitness="events", p0=0.0001)
             range_ = self.range[0] if self.range else None
             h, e = np.histogram(X.ravel(), bins=bins, range=range_,
+<<<<<<< HEAD
                                 weights=sample_weight, normed=False)
+=======
+                                weights=sample_weight, density=False)
+>>>>>>> d4a15a9 (Initial commit for CARL-TORCH)
             e = [e]
 
         elif self.variable_width:
@@ -70,17 +78,30 @@ class Histogram():
             ticks[-1] += 1e-5
             range_ = self.range[0] if self.range else None
             h, e = np.histogram(X.ravel(), bins=ticks, range=range_,
+<<<<<<< HEAD
                                 normed=False, weights=sample_weight)
+=======
+                                density=False, weights=sample_weight.flatten())
+>>>>>>> d4a15a9 (Initial commit for CARL-TORCH)
             h, e = h.astype(float), e.astype(float)
             widths = e[1:] - e[:-1]
             h = h / widths / h.sum()
             e = [e]
+<<<<<<< HEAD
+=======
+            bins=self.bins
+>>>>>>> d4a15a9 (Initial commit for CARL-TORCH)
 
         else:
             bins = self.bins
             h, e = np.histogramdd(X, bins=bins, range=self.range,
+<<<<<<< HEAD
                                   weights=sample_weight.flatten(), normed=True)
 
+=======
+                                  # weights=sample_weight.flatten(), normed=True) changed due to keyword argument error
+                                  weights=sample_weight.flatten(), density=True)
+>>>>>>> d4a15a9 (Initial commit for CARL-TORCH)
         # Plot histogram for prosperity
         pltx = []
         for i in range(bins):

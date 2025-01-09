@@ -14,6 +14,10 @@ from sklearn.model_selection import train_test_split
 from sklearn.ensemble import GradientBoostingClassifier
 from sklearn.metrics import roc_curve, auc, confusion_matrix
 from sklearn.neural_network import MLPRegressor
+<<<<<<< HEAD
+=======
+from sklearn.neural_network import MLPClassifier
+>>>>>>> d4a15a9 (Initial commit for CARL-TORCH)
 from sklearn.calibration import calibration_curve
 import wasserstein
 import scipy as scipy
@@ -78,11 +82,19 @@ def draw_weighted_distributions(x0, x1, w0, w1,
                                 ext_plot_path=None,
                                 normalise=True):
     # Formatting
+<<<<<<< HEAD
     font = font_manager.FontProperties(family='Symbol',
                                        style='normal', size=12)
     plt.rcParams['legend.title_fontsize'] = 14
 
 
+=======
+    # change family from Symbol to Arial
+    font = font_manager.FontProperties(family='Arial',
+                                       style='normal', size=12)
+    plt.rcParams['legend.title_fontsize'] = 14
+    
+>>>>>>> d4a15a9 (Initial commit for CARL-TORCH)
     for id, column in enumerate(variables):
         #fig, axes = plt.subplots(3, sharex=True, figsize=(12,10))
         fig = plt.figure(figsize=(12,10))
@@ -122,6 +134,11 @@ def draw_weighted_distributions(x0, x1, w0, w1,
 
         axes[0].set_xlabel('%s'%(column), horizontalalignment='right',x=1)
         axes[0].legend(frameon=False,title = '%s sample'%(label), prop=font )
+<<<<<<< HEAD
+=======
+        #axes[0].legend(frameon=False,title = '%s sample'%(label))
+        #axes[0].legend(title = '%s sample'%(label), loc="upper right", bbox_to_anchor=(1.05, 1), frameon=False, prop = font)
+>>>>>>> d4a15a9 (Initial commit for CARL-TORCH)
         axes[0].set_ylabel(r"$\frac{1}{N} \cdot \frac{d \sigma}{dx}$", horizontalalignment='center',x=1, fontsize=18)
         #axes[0].legend.get_title().set_fontsize('14')
         #axes = plt.gca()
@@ -155,7 +172,13 @@ def draw_weighted_distributions(x0, x1, w0, w1,
         ############################        
         logger.info("{}".format(nom_alt_KL_res))
         logger.info("{}".format(carl_alt_KL_res))
+<<<<<<< HEAD
 
+=======
+        r_KL = 1  - (carl_alt_KL / nom_alt_KL)
+        print(f"Relative reduction of the KL-divergence: {r_KL:.5f} \n")
+        
+>>>>>>> d4a15a9 (Initial commit for CARL-TORCH)
         # Calculate the EMD
         #emd = wasserstein.EMD()
         #emd_var_val = emd(w0, x0[:,id], w1, x1[:,id])
@@ -525,7 +548,11 @@ def draw_Obs_ROC(X0, X1, W0, W1, weights, label, legend, n, plot = True, plot_re
             logger.info("Saving ROC plots to /plots")
 
         # Plot variables used in ROC calculation
+<<<<<<< HEAD
         bins = np.linspace(np.amin(x0), np.amax(x0) ,50)
+=======
+        bins = np.linspace(np.amin(x0), np.amax(x0) ,50) # creates 50 bins for the resampled observables plots
+>>>>>>> d4a15a9 (Initial commit for CARL-TORCH)
         plt.hist(data_t[labels_t==0],   bins=bins, weights=weights_t[labels_t==0], label=r"Nominal", **hist_settings_nom)
         plt.hist(data_tr[labels_tr==0], bins=bins, weights=weights_tr[labels_tr==0], label=r"Nominal * CARL", **hist_settings_CARL)
         plt.hist(data_tr[labels_tr==1], bins=bins, weights=weights_tr[labels_tr==1], label=r"Alternative", **hist_settings_alt)
@@ -547,7 +574,11 @@ def weight_data(x0, x1, w0, w1):
     # Test the amount of available memory on device
     mem = psutil.virtual_memory()
     # Assign a max resample number
+<<<<<<< HEAD
     max_resample = 200000
+=======
+    max_resample = 10000000 # 10000000
+>>>>>>> d4a15a9 (Initial commit for CARL-TORCH)
     
     x0_len = x0.shape[0]
     w0_sum = int(w0.sum())
@@ -559,6 +590,10 @@ def weight_data(x0, x1, w0, w1):
     resample_num_0 = round(mem.free/(10*x0[0].nbytes))
     resample_num_0 = resample_num_0 if resample_num_0 < max_resample else max_resample
     w0 = w0 / w0.sum()
+<<<<<<< HEAD
+=======
+    
+>>>>>>> d4a15a9 (Initial commit for CARL-TORCH)
     #weighted_data0 = np.random.choice(range(x0_len), w0_sum, p = w0)
     weighted_data0 = np.random.choice(range(x0_len), resample_num_0, p = w0)
     print("<weight_data>::    Weighted Sample Length (x0) = {}".format(len(weighted_data0)))
@@ -591,6 +626,7 @@ def resampled_discriminator_and_roc(original, target, w0, w1):
     (data, labels) = weight_data(original, target, w0, w1)
     Xtr, Xts, Ytr, Yts = train_test_split(data, labels, random_state=42, train_size=0.51, test_size=0.49)
 
+<<<<<<< HEAD
     discriminator = MLPRegressor(tol=1e-05, activation="logistic",
                                  hidden_layer_sizes=(original.shape[1],original.shape[1], original.shape[1]),
                                  learning_rate_init=1e-07, learning_rate="constant",
@@ -601,14 +637,76 @@ def resampled_discriminator_and_roc(original, target, w0, w1):
     predicted = discriminator.predict(Xts)
     fpr, tpr, _  = roc_curve(Yts,predicted.ravel())
     roc_auc = auc(fpr, tpr)
+=======
+    # Change the parameters of the MLPRegressor to hopefully achieve numerical stability
+    # tol = 1e-05, max_iter = 200 / 2000, activation = "logistic", learning_rate = "constant", hidden_layer_sizes=(original.shape[1],original.shape[1], original.shape[1])
+    # change the Regressor to a classifier,
+    # Arguments using lbfgs: tol=1e-07, activation="relu", random_state=1, max_iter=2000, max_fun = 15000
+    # If code takes too long, increase the learning rate to like 1e-05, already dreased max_iter as it is number of epochs for adam, learning_rate_init=1e-07, learning_rate="constant",
+    discriminator = MLPClassifier(tol=1e-07, activation="relu",
+                                 hidden_layer_sizes=(original.shape[1], original.shape[1], original.shape[1]),
+                                 solver="adam", random_state=1, learning_rate_init=1e-05, learning_rate="constant", 
+                                 max_iter=200, batch_size=2048)
+    #print(discriminator.get_params())
+    discriminator.fit(Xtr,Ytr)
+    #predicted = discriminator.predict(Xts)
+    predicted = discriminator.predict_proba(Xts)[:, 1]
+    
+    #fpr, tpr, _  = roc_curve(Yts,predicted.ravel())
+    fpr, tpr, _  = roc_curve(Yts,predicted)
+    roc_auc = auc(fpr, tpr)
+
+    # Starting to calculate the SE of the AUC with Kish effective sample 
+    # To check for comparison, also consider the length of original (x0) and target (x1)sample
+    n_x0 = len(original)
+    n_x1 = len(target)
+    
+    # Compute the effective sample size for psotive and negative cases 
+    n_eff_pos = (np.sum(w1)**2) / np.sum(w1**2)
+    n_eff_neg = (np.sum(w0)**2) / np.sum(w0**2)
+    
+    # Using the effective sample sizes and the AUC, compute the values for D_p and D_n
+    D_p = (n_eff_pos - 1) * (roc_auc / (2 - roc_auc) - roc_auc**2)
+    D_n = (n_eff_neg - 1) * ((2 * roc_auc**2) / (1 + roc_auc) - roc_auc**2 )
+    
+    # Compute the SE of the AUC
+    SE = np.sqrt( (roc_auc * (1 - roc_auc) + D_p + D_n) / (n_eff_pos * n_eff_neg))
+    
+    auc_val = 0.5 
+    D_p_test = (n_eff_pos - 1) * (auc_val / (2 - auc_val) - auc_val**2)
+    D_n_test = (n_eff_neg - 1) * ((2 * auc_val**2) / (1 + auc_val) - auc_val**2 )
+    
+    SE_test = np.sqrt( (auc_val * (1 - auc_val) + D_p_test + D_n_test) / (n_eff_pos * n_eff_neg))
+    
+    print("Length of the original sample (x0):", n_x0)
+    print("Effective sample size for x0:", n_eff_neg)
+    
+    print("Length of the target sample (x1):", n_x1)
+    print("Effective sample size for x1:", n_eff_pos) 
+    
+    print("The value of the AUC is: {:.3f}".format(roc_auc))
+    print("The SE of the AUC is: {:.10f}".format(SE))
+    print("The SE for AUC of 0.5 is expected to be: {:.10f}".format(SE_test))
+    
+>>>>>>> d4a15a9 (Initial commit for CARL-TORCH)
     return fpr,tpr,roc_auc
 
 def draw_ROC(X0, X1, W0, W1, weights, label, legend, n, plot = True):
     plt.figure(figsize=(8, 6))
     W0 = W0.flatten()
     W1 = W1.flatten()
+<<<<<<< HEAD
     fpr_t,tpr_t,roc_auc_t = resampled_discriminator_and_roc(X0, X1, W0, W1)
     fpr_tC,tpr_tC,roc_auc_tC = resampled_discriminator_and_roc(X0, X1, W0*weights, W1)
+=======
+    
+    logger.info(" Calling resampled_discriminator_and_roc with no weight")
+    fpr_t,tpr_t,roc_auc_t = resampled_discriminator_and_roc(X0, X1, W0, W1)
+    
+    logger.info(" Calling resampled_discriminator_and_roc with CARL weight")
+    fpr_tC,tpr_tC,roc_auc_tC = resampled_discriminator_and_roc(X0, X1, W0*weights, W1)
+    
+>>>>>>> d4a15a9 (Initial commit for CARL-TORCH)
     plt.plot(fpr_t, tpr_t, label=r"no weight, AUC=%.3f" % roc_auc_t)
     plt.plot(fpr_tC, tpr_tC, label=r"CARL weight, AUC=%.3f" % roc_auc_tC)
     plt.plot([0, 1], [0, 1], 'k--')
@@ -626,7 +724,11 @@ def draw_ROC(X0, X1, W0, W1, weights, label, legend, n, plot = True):
     logger.info("Unweighted %s AUC is %.3f"%(label,roc_auc_t))
     logger.info("Saving ROC plots to /plots")
 
+<<<<<<< HEAD
 def plot_calibration_curve(y, probs_raw, probs_cal, global_name, save = False):
+=======
+def plot_calibration_curve(y, probs_raw, probs_cal, global_name, save = False, interpolation ='linear', variable_width = False, scale_method = 'minmax'):
+>>>>>>> d4a15a9 (Initial commit for CARL-TORCH)
     ax1 = plt.subplot2grid((3, 1), (0, 0), rowspan=2)
     ax2 = plt.subplot2grid((3, 1), (2, 0))
     ax1.plot([0, 1], [0, 1], "k:", label="Perfectly calibrated")
@@ -662,7 +764,17 @@ def plot_calibration_curve(y, probs_raw, probs_cal, global_name, save = False):
     ax2.set_xlabel("Mean predicted value")
     ax2.set_ylabel("Count")
     if save:
+<<<<<<< HEAD
         plt.savefig('plots/calibration_'+global_name+'.png')
+=======
+        # plt.savefig('plots/calibration_'+global_name+'.png')
+        #.capitalize()
+        directory_name = os.path.join('plots', f"Calibration_{scale_method}_{interpolation}_{variable_width}")
+        os.makedirs(directory_name, exist_ok = True)
+        #filename = f'plots/calibration_{global_name}_{scale_method}_{interpolation.capitalize()}_{str(variable_width)}.png'
+        filename = os.path.join(directory_name, f'calibration_{global_name}')
+        plt.savefig(filename)
+>>>>>>> d4a15a9 (Initial commit for CARL-TORCH)
         plt.clf()
     logger.info("Saving calibration curves to /plots")
 

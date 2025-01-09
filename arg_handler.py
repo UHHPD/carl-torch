@@ -67,5 +67,9 @@ def arg_handler_eval():
     parser.add_argument('--scale-method', action='store', dest='scale_method', type=str, default='minmax', help='scaling method for input data. e.g minmax, standard')
     parser.add_argument('--weight-protection', action='store_true', dest='weight_protection',  default=False, help='implement CARL weight protection by clipping away (+-) inf values')
     parser.add_argument('--weight-threshold', action='store', dest='weight_threshold', type=percentile_range, default=100, help='implement CARL weight clipping by clipping based on user defined percentile. Valid range from [0,100]% with floating precision')
+<<<<<<< HEAD
+=======
+    parser.add_argument('--batch_size', action='store', type=int, dest='batch_size', default=100000, help='Batch size for evaluation')
+>>>>>>> d4a15a9 (Initial commit for CARL-TORCH)
     opts = parser.parse_args()
     return opts

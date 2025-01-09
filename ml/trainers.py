@@ -98,6 +98,21 @@ class Trainer(object):
         self.device = torch.device("cuda" if self.run_on_gpu else "cpu")
         self.dtype = torch.double if double_precision else torch.float
         self.n_workers = n_workers
+<<<<<<< HEAD
+=======
+        # Checking the the number of CPU
+        #num_threads = torch.get_num_threads()
+        #print(f'Current number of threads: {num_threads}')
+        
+        # Try to set custom number of threads ( equal to physical cores) 
+        #torch.set_num_threads(1)
+        #torch.set_num_interop_threads(1)
+        #print(f'New number of threads: {torch.get_num_threads()}')
+        # print(f'New number of inter-op threads: {torch.get_num_interop_threads()}')
+        
+        # print(torch.__config__.parallel_info())
+        # np.show_config()
+>>>>>>> d4a15a9 (Initial commit for CARL-TORCH)
         self.model = self.model.to(self.device, self.dtype)
 
         logger.info(

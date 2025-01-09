@@ -52,7 +52,14 @@ class CalibratedClassifier():
         w = load_and_check(w)
         w = column_or_1d(w)
         label_encoder = LabelEncoder()
+<<<<<<< HEAD
         y = label_encoder.fit_transform(y).astype(np.float)
+=======
+        
+        # changed the line due to the numpy error
+        # y = label_encoder.fit_transform(y).astype(np.float)
+        y = label_encoder.fit_transform(y).astype(float)
+>>>>>>> d4a15a9 (Initial commit for CARL-TORCH)
 
         if len(label_encoder.classes_) != 2:
             raise ValueError
@@ -136,7 +143,11 @@ class HistogramCalibrator():
             (`"linear"`, `"nearest"`, `"zero"`, `"slinear"`, `"quadratic"`,
             `"cubic"`).
         * `variable_width` [boolean, optional]
+<<<<<<< HEAD
             If True use equal probability variable length bins.
+=======
+            If True use equal probability variable length bins. (Having approximate same number of data points per bin)
+>>>>>>> d4a15a9 (Initial commit for CARL-TORCH)
         * `global_name` [string, optional]
             Name of the current training used for plotting, and file saving
         """

@@ -7,6 +7,10 @@ import os
 import numpy as np
 import uproot
 import pandas as pd
+<<<<<<< HEAD
+=======
+import ROOT
+>>>>>>> d4a15a9 (Initial commit for CARL-TORCH)
 # import torch
 # from torch.nn import functional as F
 from collections import defaultdict
@@ -272,6 +276,7 @@ def load(
 
             DataFrame of feasures, event weight, and labels
     """
+<<<<<<< HEAD
     # grab our data and iterate over chunks of it with uproot
     logger.info("<{}> Uproot open file".format(process_time()))
     file = uproot.open(f)
@@ -335,6 +340,91 @@ def load(
     return (df, weights, labels)
 
 
+=======
+    
+    logger.info("<{}> Opening ROOT file".format(process_time()))
+    root_file = ROOT.TFile.Open(f)
+
+    # Get the RooDataSet
+    logger.info("<{}> Getting RooDataSet from file".format(process_time()))
+    dataset = root_file.Get(t)
+
+    # Inspect the structure of the RooDataSetS
+    logger.info("<{}> Inspecting RooDataSet structure".format(process_time()))
+    print("RooDataSet Name: ", dataset.GetName())
+    print("Number of Entries: ", dataset.numEntries())
+    dataset.Print()  # This prints the structure of the RooDataSet to the console
+    
+    # Check that features were set by user; if not, will use all features
+    if not features:
+        logger.info("User did not define features. Using all columns from RooDataSet.")
+        features = [var.GetName() for var in dataset.getVariables()]
+
+    # Ensure we don't try to load 0 events. Convert 0 to None, meaning load the entire dataset
+    if n == 0:
+        n = None
+
+    # Create a list to hold data
+    data = {feature: [] for feature in features}
+    weights = []
+
+    # Loop over the RooDataSet and fill the data dictionary
+    logger.info("<{}> Reading data from RooDataSet".format(process_time()))
+    for i in range(min(n, dataset.numEntries())):
+        entry = dataset.get(i)  # Get the i-th entry as a RooArgSet
+        
+        # Skip entry if sampleId is not 0
+        if entry.find("sampleId") and entry.find("sampleId").getVal() != 0:
+            continue
+        
+        for feature in features:
+            if entry.find(feature):  # Check if the feature is in the entry
+                data[feature].append(entry.find(feature).getVal())
+            else:
+                logger.warning("Feature '{}' not found in the entry.".format(feature))
+
+        # Handle the weight
+        if weightFeature == "DummyEvtWeight":
+            weights.append(1)  # Assign weight of 1
+        else:
+            weight_value = dataset.weight()  # Use the weight method to get the weight for the current entry
+            if weight_value is not None:
+                weights.append(weight_value)
+            else:
+                logger.error("Weight for entry {} could not be retrieved.".format(i))
+                raise ValueError("Weight for entry {} could not be retrieved. Please check the dataset.".format(i))
+
+    # Convert data to pandas DataFrame
+    df = pd.DataFrame(data)
+    weights_df = pd.DataFrame(weights, columns=[weightFeature])
+
+    # Apply filtering if set by user
+    if Filter is not None:
+        logger.info("<{}> Applying filtering".format(process_time()))
+        for logExp in Filter.FilterList:
+            df_mask = df.eval(logExp)
+            df = df[df_mask]
+            weights_df = weights_df[df_mask]
+
+    # Reset all row numbers
+    logger.info("<{}> Resetting row numbers in pandas DataFrames".format(process_time()))
+    df = df.reset_index(drop=True)
+    weights_df = weights_df.reset_index(drop=True)
+
+    # Handle weight polarity
+    if weight_polarity:
+        logger.info("<{}> Converting weights to polarity feature".format(process_time()))
+        polarity_name = "polarity"
+        df[polarity_name] = weights_df[weightFeature].apply(lambda x: 1 if x >= 0 else -1)
+        labels = features + [polarity_name]
+    else:
+        labels = features
+
+    logger.info("<{}> Completed DataFrame loading".format(process_time()))
+    return df, weights_df, labels
+
+   
+>>>>>>> d4a15a9 (Initial commit for CARL-TORCH)
 def create_missing_folders(folders):
     if folders is None:
         return
@@ -363,6 +453,10 @@ def load_and_check(filename, warning_threshold=1.0e9, memmap_files_larger_than_g
         data = filename
         memmap = False
     else:
+<<<<<<< HEAD
+=======
+        print("Attempting to load file:", filename)
+>>>>>>> d4a15a9 (Initial commit for CARL-TORCH)
         filesize_gb = os.stat(filename).st_size / 1.0 * 1024 ** 3
         if memmap_files_larger_than_gb is None or filesize_gb <= memmap_files_larger_than_gb:
             logger.info("  Loading %s into RAM", filename)

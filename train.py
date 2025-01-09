@@ -1,4 +1,5 @@
 import os
+<<<<<<< HEAD
 import sys
 import logging
 #import argparse
@@ -14,6 +15,9 @@ import numpy as np
 from itertools import repeat
 
 logger = logging.getLogger(__name__)
+=======
+from arg_handler import arg_handler_train
+>>>>>>> d4a15a9 (Initial commit for CARL-TORCH)
 
 #################################################
 # Arugment parsing
@@ -41,9 +45,35 @@ BoolFilter = opts.BoolFilter
 n_workers = opts.n_workers
 clipFeatures = opts.clipFeatures.split(",") if len(opts.clipFeatures)>0 else []
 clippingQuantile = opts.clippingQuantile
+<<<<<<< HEAD
 #################################################
 
 #################################################
+=======
+
+# Set environment variables before importing PyTorch
+os.environ["OMP_NUM_THREADS"] = str(n_workers)
+os.environ["MKL_NUM_THREADS"] = str(n_workers)
+#################################################
+
+import sys
+import logging
+import tarfile
+import pickle
+import pathlib
+import numpy as np
+from ml import RatioEstimator
+from ml import Loader
+from ml import Filter
+import numpy as np
+from itertools import repeat
+import torch
+
+torch.set_num_threads(n_workers)
+# print(torch.__config__.parallel_info())
+logger = logging.getLogger(__name__)
+
+>>>>>>> d4a15a9 (Initial commit for CARL-TORCH)
 # Loading of data from root of numpy arrays
 loading = Loader()
 if BoolFilter != None:
@@ -121,7 +151,11 @@ structure = n_hidden
 # Use the number of inputs as input to the hidden layer structure
 estimator = RatioEstimator(
     n_hidden=(structure),
+<<<<<<< HEAD
     activation="relu",
+=======
+    activation="relu", # possible activation functions are tanh, sigmoid and relu
+>>>>>>> d4a15a9 (Initial commit for CARL-TORCH)
 )
 estimator.scaling_method = scale_method
 if opts.dropout_prob is not None:
@@ -189,13 +223,20 @@ if opts.regularise is not None:
     logger.info("L2 loss regularisation included.")
     kwargs={"weight_decay": 1e-5}
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> d4a15a9 (Initial commit for CARL-TORCH)
 # perform training
 train_loss, val_loss, accuracy_train, accuracy_val = estimator.train(
     method='carl',
     batch_size=batch_size,
     n_epochs=nepoch,
+<<<<<<< HEAD
     validation_split=0.25,
+=======
+    validation_split=0.25, # change the validation split
+>>>>>>> d4a15a9 (Initial commit for CARL-TORCH)
     #optimizer="amsgrad",
     x=x,
     y=y,
@@ -205,6 +246,7 @@ train_loss, val_loss, accuracy_train, accuracy_val = estimator.train(
     w0=w0,
     w1=w1,
     scale_inputs=True,
+<<<<<<< HEAD
     scaling=scale_method,
     early_stopping=False,
     #early_stopping_patience=20,
@@ -215,15 +257,34 @@ train_loss, val_loss, accuracy_train, accuracy_val = estimator.train(
     plot_inputs=opts.plot_inputs,    
     nentries=n,
     loss_type=loss_type,
+=======
+    scaling=scale_method, # scaling method for the input data, minmax or standard 
+    early_stopping=False, # Default is False, works only if validation_split is not None
+    #early_stopping_patience=20,
+    intermediate_train_plot = intermediate_train_plot,
+    intermediate_save = intermediate_save,
+    optimizer_kwargs=kwargs, # If regularisation (L0, L1, L2 is used, updates the optimizer with the weight decay)
+    global_name=global_name,
+    plot_inputs=opts.plot_inputs,    
+    nentries=n,
+    loss_type=loss_type, # Option for how to handle the weights in the loss function, "regular", "abs(w)" or "log(abs(w))"
+>>>>>>> d4a15a9 (Initial commit for CARL-TORCH)
     n_workers=n_workers,
     #initial_lr=0.0001,
     #final_lr=0.00001,
 )
 
 # saving loss values and final trained models
+<<<<<<< HEAD
 np.save(f"loss_train_{global_name}.npy", train_loss)
 np.save(f"loss_val_{global_name}.npy", val_loss)
 np.save(f"accuracy_train_{global_name}.npy", accuracy_train)
 np.save(f"accuracy_val_{global_name}.npy", accuracy_val)
+=======
+np.save(f"loss_train_{global_name}_{str(n)}.npy", train_loss)
+np.save(f"loss_val_{global_name}_{str(n)}.npy", val_loss)
+np.save(f"accuracy_train_{global_name}_{str(n)}.npy", accuracy_train)
+np.save(f"accuracy_val_{global_name}_{str(n)}.npy", accuracy_val)
+>>>>>>> d4a15a9 (Initial commit for CARL-TORCH)
 estimator.save('models/'+ global_name +'_carl_'+str(n), x, metaData, export_model = True, noTar=True)
 ########################################
