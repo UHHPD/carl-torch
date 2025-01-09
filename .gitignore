@@ -1,0 +1,6 @@
+data/
+plots/
+loss/
+models/
+work.train/
+Z-Score.ipynb
